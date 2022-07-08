@@ -89,7 +89,8 @@ export default class DocBuilder {
     }
     if (docs.length) return docs;
 
-    const regexp = new RegExp(`[~]${name.replace('*', '\\*')}$`); // if name is `*`, need to escape.
+    // This is needed to escape if the name contains `*` or `[` or `]`
+    const regexp = new RegExp(`[~]${name.replace('*', '\\*').replace('[', '\\[').replace(']', '\\]')}$`);
     if (kind) {
       docs = this._orderedFind(null, {longname: {regex: regexp}, kind: kind});
     } else {
